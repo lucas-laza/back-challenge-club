@@ -6,6 +6,10 @@ const userController = require('./controllers/user.controller');
 const eventController = require('./controllers/event.controller');
 const newsController = require('./controllers/news.controller');
 const contactController = require('./controllers/contact.controller');
+const authController = require('./controllers/auth.controller');
+
+const auth = require('./middleware/auth');
+const admin = require('./middleware/admin');
 
 // Connect to the database
 connect();
@@ -30,8 +34,12 @@ app.get('/', (req, res) => {
 // Create a router instance
 const router = express.Router();
 
+// Auth routes
+router.post('/auth/signin', authController.signup);
+router.post('/auth/login', authController.login);
+
 // User routes
-router.post('/users', userController.create);
+// router.post('/users', userController.create);
 router.get('/users', userController.getAll);
 router.get('/users/:id', userController.getById);
 router.put('/users/:id', userController.update);
@@ -39,7 +47,7 @@ router.delete('/users/:id', userController.delete);
 
 // Event routes
 router.post('/events', eventController.create);
-router.get('/events', eventController.getAll);
+router.get('/events', auth, eventController.getAll);
 router.get('/events/:id', eventController.getById);
 router.put('/events/:id', eventController.update);
 router.delete('/events/:id', eventController.delete);
