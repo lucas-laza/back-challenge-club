@@ -1,12 +1,14 @@
 const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
-const actualiteController = require('./controllers/actualite.controller');
-const {connect} = require("./models/connection");
+const { connect } = require('./models/connection');
 const cors = require('cors');
 
-connect();
+const userController = require('./controllers/user.controller');
+const eventController = require('./controllers/event.controller');
+const newsController = require('./controllers/news.controller');
+const contactController = require('./controllers/contact.controller');
 
-// connectDB();
+// Connect to the database
+connect();
 
 const app = express();
 
@@ -22,31 +24,42 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Bienvenue dans mon application Express avec MongoDB !');
+    res.send('Bienvenue dans mon application Express avec MongoDB !');
 });
 
+// Create a router instance
+const router = express.Router();
 
-app.post('/api/actualites', actualiteController.create);
-app.get('/api/actualites', actualiteController.findAll);
-app.get('/api/actualites/:id', actualiteController.findOne);
-app.put('/api/actualites/:id', actualiteController.update);
-app.delete('/api/actualites/:id', actualiteController.delete);
+// User routes
+router.post('/users', userController.create);
+router.get('/users', userController.getAll);
+router.get('/users/:id', userController.getById);
+router.put('/users/:id', userController.update);
+router.delete('/users/:id', userController.delete);
 
-// app.post('/ajouter-utilisateur', (req, res) => {
-//   const utilisateur = req.body;
-//   client.connect(err => {
-//     const collection = client.db("<dbname>").collection("utilisateurs");
-//     collection.insertOne(utilisateur, (err, result) => {
-//       if (err) {
-//         res.status(500).send({ message: 'Une erreur est survenue lors de l\'ajout de l\'utilisateur' });
-//       } else {
-//         res.send({ message: 'Utilisateur ajouté avec succès', result });
-//       }
-//       client.close();
-//     });
-//   });
-// });
+// Event routes
+router.post('/events', eventController.create);
+router.get('/events', eventController.getAll);
+router.get('/events/:id', eventController.getById);
+router.put('/events/:id', eventController.update);
+router.delete('/events/:id', eventController.delete);
+
+// News routes
+router.post('/news', newsController.create);
+router.get('/news', newsController.getAll);
+router.get('/news/:id', newsController.getById);
+router.put('/news/:id', newsController.update);
+router.delete('/news/:id', newsController.delete);
+
+// Contact routes
+router.post('/contacts', contactController.create);
+router.get('/contacts', contactController.getAll);
+router.get('/contacts/:id', contactController.getById);
+router.put('/contacts/:id', contactController.update);
+router.delete('/contacts/:id', contactController.delete);
+
+app.use('/', router);
 
 app.listen(3030, () => {
-  console.log('Mon application Express avec MongoDB est démarrée sur le port 3030 !');
+    console.log('Mon application Express avec MongoDB est démarrée sur le port 3030 !');
 });
