@@ -5,7 +5,7 @@ const EventSchema = new Schema({
     name: { type: String, required: true },
     is_tournament: { type: Boolean, default: false },
     date: { type: Date, required: true },
-    users: [{ type: Schema.Types.ObjectId, ref: 'User' }] // Changed to list of userId references
+    users: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 });
 
 module.exports = mongoose.model('Event', EventSchema);
