@@ -7,7 +7,7 @@ const secret = process.env.JWT_SECRET;
 
 exports.signup = async (req, res) => {
     try {
-        const { name, last_name, email, password, is_admin, elo, license_number } = req.body;
+        const { name, last_name, email, password, elo, license_number } = req.body;
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -20,7 +20,7 @@ exports.signup = async (req, res) => {
             last_name,
             email,
             password: hashedPassword,
-            is_admin,
+            is_admin: false,
             elo,
             license_number
         });
@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
         if (!isPasswordCorrect) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
-
+        console.log('ici', user, user.is_admin);
         const token = jwt.sign(
             { email: user.email, isAdmin: user.is_admin },
             secret,

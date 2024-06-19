@@ -38,33 +38,33 @@ const router = express.Router();
 router.post('/auth/signin', authController.signup);
 router.post('/auth/login', authController.login);
 
-// User routes
-// router.post('/users', userController.create);
-router.get('/users', userController.getAll);
-router.get('/users/:id', userController.getById);
-router.put('/users/:id', userController.update);
-router.delete('/users/:id', userController.delete);
+// User routes (admin sur toutes)
+router.get('/users', [auth, admin], userController.getAll);
+router.get('/users/:id', [auth, admin], userController.getById);
+router.put('/users/:id', [auth, admin], userController.update);
+router.delete('/users/:id', [auth, admin], userController.delete);
 
-// Event routes
-router.post('/events', eventController.create);
+// Event routes 
+router.post('/events', [auth, admin], eventController.create); // admin
 router.get('/events', auth, eventController.getAll);
-router.get('/events/:id', eventController.getById);
-router.put('/events/:id', eventController.update);
-router.delete('/events/:id', eventController.delete);
+router.get('/events/:id', auth, eventController.getById);
+router.put('/events/:id', [auth, admin], eventController.update); // admin
+router.delete('/events/:id', [auth, admin], eventController.delete); // admin
+router.post('/events/addUser', eventController.addUserToEvent);
 
 // News routes
-router.post('/news', newsController.create);
-router.get('/news', newsController.getAll);
-router.get('/news/:id', newsController.getById);
-router.put('/news/:id', newsController.update);
-router.delete('/news/:id', newsController.delete);
+router.post('/news', [auth, admin], newsController.create); // admin
+router.get('/news', auth, newsController.getAll);
+router.get('/news/:id', auth, newsController.getById);
+router.put('/news/:id', [auth, admin], newsController.update); // admin
+router.delete('/news/:id', [auth, admin], newsController.delete); // admin
 
 // Contact routes
 router.post('/contacts', contactController.create);
-router.get('/contacts', contactController.getAll);
-router.get('/contacts/:id', contactController.getById);
-router.put('/contacts/:id', contactController.update);
-router.delete('/contacts/:id', contactController.delete);
+router.get('/contacts', [auth, admin], contactController.getAll); // admin
+router.get('/contacts/:id', [auth, admin], contactController.getById); // admin
+router.put('/contacts/:id', [auth, admin], contactController.update); // admin
+router.delete('/contacts/:id', [auth, admin], contactController.delete); // admin
 
 app.use('/', router);
 
