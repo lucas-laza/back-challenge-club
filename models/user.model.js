@@ -8,7 +8,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   is_admin: { type: Boolean, default: false },
   elo: { type: Number, required: true },
-  license_number: { type: String, required: true }
+  license_number: { type: String, required: false }
 });
 
 module.exports = mongoose.model('User', userSchema);
