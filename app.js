@@ -49,21 +49,21 @@ router.post('/profile', [auth], userController.updateProfile);
 
 // Event routes 
 router.post('/events', [auth, admin], eventController.create); // admin
-router.get('/events', auth, eventController.getAll);
-router.get('/feed/events', auth, eventController.getFeed);
+router.get('/events', eventController.getAll);
+router.get('/feed/events', eventController.getFeed);
 
-router.get('/events/:id', auth, eventController.getById);
+router.get('/events/:id', eventController.getById);
 router.put('/events/:id', [auth, admin], eventController.update); // admin
 router.delete('/events/:id', [auth, admin], eventController.delete); // admin
 router.post('/events/addUser', eventController.addUserToEvent);
 
 // News routes
 router.post('/news', [auth, admin], newsController.create); // admin
-router.get('/news', auth, newsController.getAll);
-router.get('/feed/news/latest', auth, newsController.getLatest);
-router.get('/feed/news/paginate/:page', auth, newsController.getPaginated);
+router.get('/news', newsController.getAll);
+router.get('/feed/news/latest', newsController.getLatest);
+router.get('/feed/news/paginate/:page', newsController.getPaginated);
 
-router.get('/news/:id', auth, newsController.getById);
+router.get('/news/:id', newsController.getById);
 router.put('/news/:id', [auth, admin], newsController.update); // admin
 router.delete('/news/:id', [auth, admin], newsController.delete); // admin
 
