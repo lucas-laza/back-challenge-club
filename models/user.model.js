@@ -7,7 +7,7 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   is_admin: { type: Boolean, default: false },
-  elo: { type: Number, required: true },
+  elo: { type: Number, required: false },
   license_number: { type: String, required: false }
 });
 
