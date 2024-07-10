@@ -6,6 +6,24 @@ class NewsController extends BaseController {
         super(News);
     }
 
+    createNews = async (req, res) => {
+        try {
+            const { title, texte } = req.body;
+            if (!title || !texte) {
+                return res.status(400).json({ error: 'Title and texte are required' });
+            }
+            const document = new this.model({
+                title,
+                texte,
+                date: new Date()
+            });
+            await document.save();
+            res.status(201).json(document);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
     getLatest = async (req, res) => {
         try {
             const limit = 3;

@@ -58,7 +58,7 @@ router.delete('/events/:id', [auth, admin], eventController.delete); // admin
 router.post('/events/addUser', eventController.addUserToEvent);
 
 // News routes
-router.post('/news', [auth, admin], newsController.create); // admin
+router.post('/news', [auth, admin], newsController.createNews); // admin
 router.get('/news', newsController.getAll);
 router.get('/feed/news/latest', newsController.getLatest);
 router.get('/feed/news/paginate/:page', newsController.getPaginated);
