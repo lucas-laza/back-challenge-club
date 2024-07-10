@@ -39,21 +39,20 @@ router.post('/auth/signin', authController.signup);
 router.post('/auth/login', authController.login);
 
 // User routes
-// router.post('/users', userController.create);
 router.get('/users', userController.getAll);
 router.get('/users/:id', userController.getById);
 router.put('/users/:id', userController.update);
 router.delete('/users/:id', userController.delete);
 
 // Event routes
-router.post('/events', eventController.create);
-router.get('/events', auth, eventController.getAll);
+router.post('/events', auth, eventController.create);
+router.get('/events', eventController.getAll);
 router.get('/events/:id', eventController.getById);
 router.put('/events/:id', eventController.update);
 router.delete('/events/:id', eventController.delete);
 
 // News routes
-router.post('/news', newsController.create);
+router.post('/news', auth, newsController.create);
 router.get('/news', newsController.getAll);
 router.get('/news/:id', newsController.getById);
 router.put('/news/:id', newsController.update);
