@@ -32,6 +32,32 @@ class EventController extends BaseController {
             res.status(400).json({ error: error.message });
         }
     }
+
+    // ça marche pas
+    async getFeed(req, res) {
+        try {
+            const { isTournament , isOver  } = req.query;
+            const limit = isOver ? 10 : 20;
+            const query = { is_tournament: isTournament };
+            console.log(isTournament);
+            if (isOver === 'true') {
+                const nowUtc = new Date(Date.now() - (new Date().getTimezoneOffset() * 60000)).toISOString();
+                query.date = { $lte: nowUtc };
+            } else {
+                query.date = { $gt: new Date(Date.now() - (new Date().getTimezoneOffset() * 60000)).toISOString() };
+            }
+            // console.log(isTournament, isOver, query, Event.find(query).sort({ date: -1 }).limit(limit));
+            // const events = await Event.find(query).sort({ date: -1 }).limit(limit);
+            const events = await Event.find({is_tournament: isTournament}).sort({ date: -1 }).limit(limit);
+
+            res.status(200).json(events);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+    
+    
+    
 }
 
 module.exports = new EventController();

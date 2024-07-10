@@ -28,7 +28,7 @@ exports.signup = async (req, res) => {
         await user.save();
 
         const token = jwt.sign(
-            { email: user.email, isAdmin: user.is_admin },
+            { email: user.email, isAdmin: user.is_admin, id: user.id },
             secret,
             { expiresIn: '1h' }
         );
@@ -55,7 +55,7 @@ exports.login = async (req, res) => {
         }
         console.log('ici', user, user.is_admin);
         const token = jwt.sign(
-            { email: user.email, isAdmin: user.is_admin },
+            { email: user.email, isAdmin: user.is_admin, id: user.id },
             secret,
             { expiresIn: '1h' }
         );
