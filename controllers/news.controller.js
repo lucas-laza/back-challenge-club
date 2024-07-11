@@ -1,5 +1,7 @@
+// controllers/news.controller.js
 const BaseController = require('./base.controller');
 const News = require('../models/news.model');
+const upload = require('../config/multer');
 
 class NewsController extends BaseController {
     constructor() {
@@ -15,7 +17,8 @@ class NewsController extends BaseController {
             const document = new this.model({
                 title,
                 texte,
-                date: new Date()
+                date: new Date(),
+                imageUrl: req.file ? req.file.path : null
             });
             await document.save();
             res.status(201).json(document);

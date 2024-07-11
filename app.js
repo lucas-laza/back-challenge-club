@@ -10,6 +10,7 @@ const authController = require('./controllers/auth.controller');
 
 const auth = require('./middleware/auth');
 const admin = require('./middleware/admin');
+const upload = require('./config/multer');
 
 // Connect to the database
 connect();
@@ -46,7 +47,6 @@ router.delete('/users/:id', [auth, admin], userController.delete);
 router.get('/profile', [auth], userController.getCurrent);
 router.post('/profile', [auth], userController.updateProfile);
 
-
 // Event routes 
 router.post('/events', [auth, admin], eventController.create); // admin
 router.get('/events', eventController.getAll);
@@ -58,13 +58,13 @@ router.delete('/events/:id', [auth, admin], eventController.delete); // admin
 router.post('/events/addUser', eventController.addUserToEvent);
 
 // News routes
-router.post('/news', [auth, admin], newsController.createNews); // admin
+router.post('/news', [auth, admin, upload.single('image')], newsController.createNews); // admin
 router.get('/news', newsController.getAll);
 router.get('/feed/news/latest', newsController.getLatest);
 router.get('/feed/news/paginate/:page', newsController.getPaginated);
 
 router.get('/news/:id', newsController.getById);
-router.put('/news/:id', [auth, admin], newsController.update); // admin
+router.put('/news/:id', [auth, admin, upload.single('image')], newsController.update); // admin
 router.delete('/news/:id', [auth, admin], newsController.delete); // admin
 
 // Contact routes
