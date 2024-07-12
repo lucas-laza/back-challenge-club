@@ -23,16 +23,22 @@ app.options('*', cors());
 app.use(express.json());
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    next();
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, DELETE, OPTIONS'
+  );
+  next();
 });
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {
-    res.send('Bienvenue dans mon application Express avec MongoDB !');
+  res.send('Bienvenue dans mon application Express avec MongoDB !');
 });
 
 // Create a router instance
@@ -50,7 +56,7 @@ router.delete('/users/:id', [auth, admin], userController.delete);
 router.get('/profile', [auth], userController.getCurrent);
 router.post('/profile', [auth], userController.updateProfile);
 
-// Event routes 
+// Event routes
 router.post('/events', [auth, admin], eventController.create); // admin
 router.get('/events', eventController.getAll);
 router.get('/feed/events', eventController.getFeed);
@@ -61,13 +67,21 @@ router.delete('/events/:id', [auth, admin], eventController.delete); // admin
 router.post('/events/addUser', eventController.addUserToEvent);
 
 // News routes
-router.post('/news', [auth, admin, upload.single('image')], newsController.createNews); // admin
+router.post(
+  '/news',
+  [auth, admin, upload.single('image')],
+  newsController.createNews
+); // admin
 router.get('/news', newsController.getAll);
 router.get('/feed/news/latest', newsController.getLatest);
 router.get('/feed/news/paginate/:page', newsController.getPaginated);
 
 router.get('/news/:id', newsController.getById);
-router.put('/news/:id', [auth, admin, upload.single('image')], newsController.update); // admin
+router.put(
+  '/news/:id',
+  [auth, admin, upload.single('image')],
+  newsController.update
+); // admin
 router.delete('/news/:id', [auth, admin], newsController.delete); // admin
 
 // Contact routes
@@ -80,5 +94,7 @@ router.delete('/contacts/:id', [auth, admin], contactController.delete); // admi
 app.use('/', router);
 
 app.listen(3030, () => {
-    console.log('Mon application Express avec MongoDB est démarrée sur le port 3030 !');
+  console.log(
+    'Mon application Express avec MongoDB est démarrée sur le port 3030 !'
+  );
 });
