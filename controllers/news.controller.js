@@ -11,6 +11,7 @@ class NewsController extends BaseController {
     createNews = async (req, res) => {
         try {
             const { title, texte } = req.body;
+            
             if (!title || !texte) {
                 return res.status(400).json({ error: 'Title and texte are required' });
             }

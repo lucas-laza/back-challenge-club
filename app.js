@@ -1,6 +1,7 @@
 const express = require('express');
 const { connect } = require('./models/connection');
 const cors = require('cors');
+const path = require('path');
 
 const userController = require('./controllers/user.controller');
 const eventController = require('./controllers/event.controller');
@@ -27,6 +28,8 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     next();
 });
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {
     res.send('Bienvenue dans mon application Express avec MongoDB !');
